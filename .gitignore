@@ -1,0 +1,30 @@
+# =========================
+# Spring Boot / Maven
+# =========================
+target/
+*.log
+*.class
+
+# =========================
+# React / Node
+# =========================
+springboot-frontend/node_modules/
+springboot-frontend/build/
+
+# =========================
+# IDE Files
+# =========================
+.idea/
+.vscode/
+*.iml
+
+# =========================
+# OS Junk
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Environment Files
+# =========================
+.env

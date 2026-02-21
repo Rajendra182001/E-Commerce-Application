@@ -49,7 +49,7 @@ public class ProductController {
             ProductDto savedProduct = service.addProduct(productDto,multipartFile);
             return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -58,7 +58,7 @@ public class ProductController {
                                                 @RequestPart("productDto") ProductDto productDto,
                                                 @RequestPart(value = "imageFile") MultipartFile imageFile) {
         try {
-            ProductDto updatedProduct = service.updateProduct(id,productDto, imageFile);
+            ProductDto updatedProduct = service.updateProduct(id,productDto,imageFile);
             return (updatedProduct != null)
                     ? new ResponseEntity<>("Updated", HttpStatus.OK)
                     : new ResponseEntity<>("Failed to update", HttpStatus.BAD_REQUEST);
