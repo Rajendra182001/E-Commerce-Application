@@ -36,10 +36,18 @@ public class ProductController {
 
         ProductDto product = service.getProduct(productId);
         byte[] imageFile = product.getImageData();
-
         return ResponseEntity.ok()
                 .contentType(MediaType.valueOf(product.getImageType()))
                 .body(imageFile);
+    }
+
+    @GetMapping("/product/{id}")
+    public ResponseEntity<ProductDto> getProductById(@PathVariable Integer id) {
+        ProductDto dto = service.getProduct(id);
+        if (dto != null) {
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/product")
@@ -71,4 +79,14 @@ public class ProductController {
     public void deleteProduct(@PathVariable Integer id) {
          service.deleteProduct(id);
     }
+
+    @GetMapping("/product/search")
+    public ResponseEntity<List<ProductDto>> searchProducts(
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String name) {
+
+        List<ProductDto> list = service.search(category, name);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
 }
