@@ -85,27 +85,4 @@ public class ProductServiceImpl implements ProductService {
         }
         return false;
     }
-
-    @Override
-    public List<ProductDto> search(String category, String name) {
-
-        List<Product> products;
-
-        if (category != null && name != null) {
-            products = repo.findByCategoryIgnoreCaseAndNameContainingIgnoreCase(category, name);
-        } else if (category != null) {
-            products = repo.findByCategoryIgnoreCase(category);
-        } else if (name != null) {
-            products = repo.findByNameContainingIgnoreCase(name);
-        } else {
-            products = repo.findAll();
-        }
-
-        return products.stream().map(product -> {
-            ProductDto dto = new ProductDto();
-            BeanUtils.copyProperties(product, dto);
-            return dto;
-        }).toList();
-    }
-
 }

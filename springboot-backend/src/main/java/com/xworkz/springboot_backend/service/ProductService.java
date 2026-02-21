@@ -18,6 +18,5 @@ public interface ProductService {
 
     boolean deleteProduct(Integer id);
 
-    List<ProductDto> search(String category, String name);
 
 }
