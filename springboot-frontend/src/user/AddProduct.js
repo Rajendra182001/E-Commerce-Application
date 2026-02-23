@@ -1,11 +1,10 @@
-import { Select } from '@mui/material'
-import axios from 'axios';
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import API from "../API";
 
 export default function AddProduct() {
+  const navigate = useNavigate();
 
-  let navigate = useNavigate();
   const [product, setProduct] = useState({
     name: "",
     description: "",
@@ -17,42 +16,66 @@ export default function AddProduct() {
     available: false,
   });
 
-  const { name, description, brand, price, category, quantity, releaseDate, available } = product;
-  const [image,setImage]=useState(null);
+  const [image, setImage] = useState(null);
 
+  const {
+    name,
+    description,
+    brand,
+    price,
+    category,
+    quantity,
+    releaseDate,
+    available,
+  } = product;
+
+  // Handle input change
   const onInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setProduct(prevProduct => ({
-      ...prevProduct,
-      [name]: type === "checkbox" ? checked : value
+    setProduct((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
- const handleImageChange=(e)=>{
-  setImage(e.target.files[0])
- }; 
- const onSubmit = async (e) => {
-  e.preventDefault();
-  const formData = new FormData();
+  // Handle image change
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+  };
 
-  // Append the image file
-  formData.append("multipartFile",image);
+  // Submit product
+  const onSubmit = async (e) => {
+    e.preventDefault();
 
-  // Convert product object to a Blob and append
-  formData.append("productDto", new Blob([JSON.stringify(product)], {
-    type: "application/json"
-  }));
+    const formData = new FormData();
 
-  // Send formData to backend
-  const result = await axios.post("http://localhost:8080/product", formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+    // Backend expects these exact keys
+    formData.append(
+      "productDto",
+      new Blob([JSON.stringify(product)], {
+        type: "application/json",
+      })
+    );
 
-  navigate("/");
-};
+    if (image) {
+      formData.append("multipartFile", image);
+    }
 
+    try {
+      await API.post("/product", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      navigate("/");
+    } catch (err) {
+      console.error("Error adding product:", err);
+      alert("Failed to add product");
+    }
+  };
+
+  // Cancel & reset
   const handleCancel = () => {
     setProduct({
       name: "",
@@ -60,76 +83,80 @@ export default function AddProduct() {
       brand: "",
       price: "",
       category: "",
-      releaseDate: "",
       quantity: "",
+      releaseDate: "",
       available: false,
     });
-    setImage(null); // Reset the image state
+    setImage(null);
   };
 
   return (
-    <div className='container'>
-      <div className='center-container'>
-        <div className='row g-3 pt-5'>
-          <div className="col-md-6 offset-md-3 border bg-light rounded p-4 mt-2" style={{ height: 'auto' }}>
-            <form onSubmit={(e) => onSubmit(e)}>
-              <div className='col-md-12 mb-4'>
-                <label htmlFor='name' className='form-label d-flex justify-content-start'>Product Name:</label>
+    <div className="container">
+      <div className="center-container">
+        <div className="row g-3 pt-5">
+          <div className="col-md-6 offset-md-3 border bg-light rounded p-4 mt-2">
+            <form onSubmit={onSubmit}>
+              {/* Product Name */}
+              <div className="mb-3">
+                <label className="form-label">Product Name</label>
                 <input
-                  type='text'
+                  type="text"
                   className="form-control"
-                  placeholder='Product Name'
                   name="name"
-                  id="name"
                   value={name}
-                  onChange={(e) => onInputChange(e)} />
+                  onChange={onInputChange}
+                  required
+                />
               </div>
 
-              <div className='row'>
-                <div className="col-md-6 mb-4">
-                  <label htmlFor='description' className='form-label d-flex justify-content-start'>Description:</label>
+              {/* Description & Brand */}
+              <div className="row">
+                <div className="col-md-6 mb-3">
+                  <label className="form-label">Description</label>
                   <input
-                    type='text'
+                    type="text"
                     className="form-control"
-                    placeholder='Add product description'
                     name="description"
-                    id="description"
                     value={description}
-                    onChange={(e) => onInputChange(e)} />
+                    onChange={onInputChange}
+                  />
                 </div>
-                <div className="col-md-6 mb-4">
-                  <label htmlFor='brand' className='form-label d-flex justify-content-start'>Brand:</label>
+
+                <div className="col-md-6 mb-3">
+                  <label className="form-label">Brand</label>
                   <input
-                    type='text'
+                    type="text"
                     className="form-control"
-                    placeholder='Add brand'
                     name="brand"
-                    id="brand"
                     value={brand}
-                    onChange={(e) => onInputChange(e)} />
+                    onChange={onInputChange}
+                  />
                 </div>
               </div>
 
-              <div className='row'>
+              {/* Price & Category */}
+              <div className="row">
                 <div className="col-md-6 mb-3">
-                  <label htmlFor='price' className='form-label d-flex justify-content-start'>Price:</label>
+                  <label className="form-label">Price</label>
                   <input
-                    type='number'
+                    type="number"
                     className="form-control"
-                    placeholder='Eg: $1000'
                     name="price"
-                    id="price"
                     value={price}
-                    onChange={(e) => onInputChange(e)} />
+                    onChange={onInputChange}
+                    required
+                  />
                 </div>
+
                 <div className="col-md-6 mb-3">
-                  <label htmlFor='category' className='form-label d-flex justify-content-start'>Category:</label>
+                  <label className="form-label">Category</label>
                   <select
-                    className='form-select'
-                    value={category}
+                    className="form-select"
                     name="category"
-                    id="category"
-                    onChange={(e) => onInputChange(e)}>
+                    value={category}
+                    onChange={onInputChange}
+                    required
+                  >
                     <option value="">Select category</option>
                     <option value="Laptop">Laptop</option>
                     <option value="Headphone">Headphone</option>
@@ -141,50 +168,73 @@ export default function AddProduct() {
                 </div>
               </div>
 
-              <div className='row'>
-  <div className="col-md-6 mb-4">
-    <label htmlFor='quantity' className='form-label d-flex justify-content-start'>Stock Quantity:</label>
-    <input
-      type="number"
-      className="form-control"
-      name="quantity"
-      id="quantity"
-      value={quantity}
-      onChange={(e) => onInputChange(e)} />
-  </div>
-  <div className="col-md-6 mb-2">
-    <label htmlFor='releaseDate' className='form-label d-flex justify-content-start'>Release Date:</label>
-    <input
-      type='date'
-      className="form-control"
-      name="releaseDate"
-      id="releaseDate"
-      value={releaseDate}
-      onChange={(e) => onInputChange(e)} />
-  </div>
-</div>
+              {/* Quantity & Release Date */}
+              <div className="row">
+                <div className="col-md-6 mb-3">
+                  <label className="form-label">Stock Quantity</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    name="quantity"
+                    value={quantity}
+                    onChange={onInputChange}
+                  />
+                </div>
 
-              <div className='row'>
-              <div className="col-md-12 d-flex align-items-center">
-           <label htmlFor='available' className="form-check-label mb-0 mr-2">Product Available:</label>
-  <input
-    className="form-check-input"
-    type="checkbox"
-    name="available"
-    id="available"
-    onChange={(e) => onInputChange(e)}/>
-  <input type="file"className="form-control" accept="image/*" onChange={handleImageChange}/>
-   </div>
+                <div className="col-md-6 mb-3">
+                  <label className="form-label">Release Date</label>
+                  <input
+                    type="date"
+                    className="form-control"
+                    name="releaseDate"
+                    value={releaseDate}
+                    onChange={onInputChange}
+                  />
+                </div>
               </div>
 
-              <div className="col-12 mt-3">
-                <button type="submit" className="btn btn-primary btn-sm rounded-pill">Submit</button>
-                <Link type="button" className="btn btn-secondary btn-sm rounded-pill ms-2" to={"/"} onClick={handleCancel}>Cancel</Link>
+              {/* Availability & Image */}
+              <div className="mb-3 d-flex align-items-center">
+                <input
+                  type="checkbox"
+                  className="form-check-input me-2"
+                  name="available"
+                  checked={available}
+                  onChange={onInputChange}
+                />
+                <label className="form-check-label me-3">
+                  Product Available
+                </label>
+
+                <input
+                  type="file"
+                  className="form-control"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                />
+              </div>
+
+              {/* Buttons */}
+              <div className="mt-3">
+                <button
+                  type="submit"
+                  className="btn btn-primary btn-sm rounded-pill"
+                >
+                  Submit
+                </button>
+
+                <Link
+                  to="/"
+                  className="btn btn-secondary btn-sm rounded-pill ms-2"
+                  onClick={handleCancel}
+                >
+                  Cancel
+                </Link>
               </div>
             </form>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

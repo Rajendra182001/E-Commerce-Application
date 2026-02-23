@@ -42,7 +42,6 @@ export default function NavBar({ onSelectCategory, onSearch }) {
     onSelectCategory(category);
   };
 
-  // ✅ Search typing
   const handleSearchChange = (e) => {
     const value = e.target.value;
     setSearchText(value);
