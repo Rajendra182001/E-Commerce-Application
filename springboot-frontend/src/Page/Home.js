@@ -229,7 +229,7 @@ export default function Home({ selectedCategory: externalCategory }) {
   const [category, setCategory] = useState(externalCategory || "All");
   const [sortBy, setSortBy] = useState("default");
   const [addedId, setAddedId] = useState(null);
-  const [cartOpen, setCartOpen] = useState(false);
+  
 
   const totalCartItems = cart.reduce((s, i) => s + i.quantity, 0);
 

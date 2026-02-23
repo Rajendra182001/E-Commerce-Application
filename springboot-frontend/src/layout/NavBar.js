@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { Link } from "react-router-dom";
-import useLocalStorage from "use-local-storage";
+
 
 export default function NavBar({ onSelectCategory, onSearch }) {
   const getInitialTheme = () => {
@@ -10,12 +10,8 @@ export default function NavBar({ onSelectCategory, onSearch }) {
     return storedTheme ? storedTheme : "light-theme";
   };
 
-  const [selectedCategory, setSelectedCategory] = useState("");
   const [searchText, setSearchText] = useState("");
-  const [theme, setTheme] = useState(getInitialTheme());
-
-  const preference = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const [isDark, setIsDark] = useLocalStorage("isDark", preference);
+  const [theme] = useState(getInitialTheme());
 
   const categories = [
     "Laptop",
@@ -26,11 +22,7 @@ export default function NavBar({ onSelectCategory, onSearch }) {
     "Fashion",
   ];
 
-  const toggleTheme = () => {
-    const newTheme = theme === "dark-theme" ? "light-theme" : "dark-theme";
-    setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
-  };
+  
 
   useEffect(() => {
     document.body.className = theme;
@@ -38,7 +30,6 @@ export default function NavBar({ onSelectCategory, onSearch }) {
 
   // ✅ Category select
   const handleCategorySelect = (category) => {
-    setSelectedCategory(category);
     onSelectCategory(category);
   };
 

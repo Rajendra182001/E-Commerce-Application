@@ -1,9 +1,8 @@
-import logo from './logo.svg';
 import './App.css';
-import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import NavBar from './layout/NavBar';
 import Home from './Page/Home';
-import { BrowserRouter as Router,Routes,Route, BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import AddUser from './user/AddUser';
 import LoginUser from './user/LoginUser';
 import AfterLogin from './user/AfterLogin';
@@ -13,16 +12,11 @@ import Product from './user/Product';
 import Cart from './user/Cart';
 import UpdateProduct from './user/UpdateProduct';
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Toggle } from './user/Toggle';
 import { useState } from 'react';
-import useLocalStorage from 'use-local-storage';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { AppProvider } from './Context/Context';
 
 function App() {
   const [cart, setCart] = useState([]);
-    const[isDark,isSetDark]=useLocalStorage("isDark",false);
     const [selectedCategory, setSelectedCategory] = useState("");
 
     const handleCategorySelect = (category) => {

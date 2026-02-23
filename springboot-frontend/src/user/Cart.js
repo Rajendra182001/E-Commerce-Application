@@ -224,7 +224,7 @@ const getCategoryEmoji = (category) => {
 
 const Cart = () => {
   const context = useContext(AppContext);
-  const cart = context?.cart || [];
+  const cart = context?.cart;
   const removeFromCart = context?.removeFromCart || (() => {});
   const clearCart = context?.clearCart || (() => {});
 

@@ -1,6 +1,6 @@
 // src/Components/Product.js
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AppContext from "../Context/Context";
 import API from "../API";
 
