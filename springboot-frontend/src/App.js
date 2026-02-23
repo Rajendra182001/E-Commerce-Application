@@ -50,8 +50,6 @@ function App() {
           element={<Home addToCart={addToCart} selectedCategory={selectedCategory}/>}
           />
           <Route exact path="/register" element={<AddUser/>}/>
-          <Route exact path="/login" element={<LoginUser/>}/>
-          <Route exact path="/afterLogin" element={<AfterLogin/>}/>
           <Route exact path="/forgotPassword" element={<ForgotPassword/>}/>
           <Route exact path="/addProducts" element={<AddProduct/>}/>
           <Route exact path="/productById/:id" element={<Product/>}/>
