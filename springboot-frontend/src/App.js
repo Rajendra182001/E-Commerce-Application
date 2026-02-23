@@ -3,10 +3,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import NavBar from './layout/NavBar';
 import Home from './Page/Home';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import AddUser from './user/AddUser';
-import LoginUser from './user/LoginUser';
-import AfterLogin from './user/AfterLogin';
-import ForgotPassword from './user/ForgotPassword';
 import AddProduct from './user/AddProduct';
 import Product from './user/Product';
 import Cart from './user/Cart';
@@ -49,8 +45,6 @@ function App() {
           path="/"
           element={<Home addToCart={addToCart} selectedCategory={selectedCategory}/>}
           />
-          <Route exact path="/register" element={<AddUser/>}/>
-          <Route exact path="/forgotPassword" element={<ForgotPassword/>}/>
           <Route exact path="/addProducts" element={<AddProduct/>}/>
           <Route exact path="/productById/:id" element={<Product/>}/>
           <Route exact path="/addToCart" element={<Cart/>}/>
