@@ -47,13 +47,6 @@ export default function NavBar({ onSelectCategory, onSearch }) {
           <i className="bi bi-cart me-2"></i> Cart
         </a>
 
-        <Link className="btn btn-sm btn-secondary rounded-pill mx-2" to="/register">
-          Register
-        </Link>
-
-        <Link className="btn btn-sm btn-danger rounded-pill mx-2" to="/login">
-          Login
-        </Link>
 
         <Link className="btn btn-sm btn-success rounded-pill mx-2" to="/addProducts">
           AddProduct
