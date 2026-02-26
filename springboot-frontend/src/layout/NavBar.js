@@ -10,7 +10,6 @@ export default function NavBar({ onSelectCategory, onSearch }) {
     return storedTheme ? storedTheme : "light-theme";
   };
 
-  const [searchText, setSearchText] = useState("");
   const [theme] = useState(getInitialTheme());
 
   const categories = [
@@ -31,12 +30,6 @@ export default function NavBar({ onSelectCategory, onSearch }) {
   // ✅ Category select
   const handleCategorySelect = (category) => {
     onSelectCategory(category);
-  };
-
-  const handleSearchChange = (e) => {
-    const value = e.target.value;
-    setSearchText(value);
-    onSearch(value); //  send to parent
   };
 
   return (
@@ -82,16 +75,6 @@ export default function NavBar({ onSelectCategory, onSearch }) {
           </ul>
         </div>
 
-        {/* ✅ Search Box */}
-        <div className="col-md-2 mx-2">
-          <input
-            className="form-control form-control-sm"
-            type="search"
-            placeholder="Search product..."
-            value={searchText}
-            onChange={handleSearchChange}
-          />
-        </div>
       </div>
     </nav>
   );
